@@ -1,3 +1,8 @@
+# Build docker
+```
+docker buildx build --push --platform linux/amd64 -t lyzhang1999/ws-scrcpy:v4 -f Dockerfile-2 .
+```
+
 # ws scrcpy
 
 Web client for [Genymobile/scrcpy][scrcpy] and more.
