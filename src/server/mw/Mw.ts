@@ -2,6 +2,7 @@ import { Message } from '../../types/Message';
 import * as http from 'http';
 import { Multiplexer } from '../../packages/multiplexer/Multiplexer';
 import WS from 'ws';
+import Protocol from '@devicefarmer/adbkit/lib/adb/protocol';
 
 export type RequestParameters = {
     request: http.IncomingMessage;
@@ -43,6 +44,18 @@ export abstract class Mw {
 
     protected onSocketClose(): void {
         this.release();
+    }
+
+    protected static sendError(message: string, channel: Multiplexer): void {
+        if (channel.readyState === channel.OPEN) {
+            const length = Buffer.byteLength(message, 'utf-8');
+            const buf = Buffer.alloc(4 + 4 + length);
+            let offset = buf.write(Protocol.FAIL, 'ascii');
+            offset = buf.writeUInt32LE(length, offset);
+            buf.write(message, offset, 'utf-8');
+            channel.send(buf);
+            channel.close();
+        }
     }
 
     public release(): void {

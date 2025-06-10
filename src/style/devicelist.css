@@ -54,11 +54,11 @@ body.list #device_list_menu {
     color: var(--button-text-color);
 }
 
-#devices .device-list div.device:nth-child(2n+1){
+#devices .device-list div.device:nth-child(2n+1) {
     background-color: var(--device-list-default-color);
 }
 
-#devices .device-list div.device:nth-child(2n){
+#devices .device-list div.device:nth-child(2n) {
     background-color: var(--device-list-stripe-color);
 }
 
@@ -139,7 +139,8 @@ body.list #device_list_menu {
 }
 
 #devices .device-list div.device:hover select {
-    background-color: var(--device-list-hover-color);;
+    background-color: var(--device-list-hover-color);
+    ;
 }
 
 #devices .device-list div.desc-block {
@@ -153,6 +154,7 @@ body.list #device_list_menu {
 
 #devices .device-list div.desc-block.stream,
 #devices .device-list div.desc-block.server_pid,
+#devices .device-list div.desc-block.connection-forward,
 #devices .device-list div.desc-block.net_interface {
     border: 1px solid var(--device-border-color);
     border-radius: .3em;
@@ -160,7 +162,7 @@ body.list #device_list_menu {
     white-space: nowrap;
 }
 
-#devices .device-list div.device div.desc-block.stream button.action-button {
+#devices .device-list div.device div.desc-block button.action-button {
     color: var(--button-text-color);
 }
 
@@ -168,25 +170,25 @@ body.list #device_list_menu {
     fill: var(--text-color)
 }
 
-#devices .device-list div.desc-block button > span {
+#devices .device-list div.desc-block button>span {
     padding: 0 .5em;
 }
 
-#devices .device-list div.desc-block button > span,
-#devices .device-list div.desc-block button > svg {
+#devices .device-list div.desc-block button>span,
+#devices .device-list div.desc-block button>svg {
     vertical-align: middle;
 }
 
-#devices .device-list div.desc-block button > svg {
+#devices .device-list div.desc-block button>svg {
     width: var(--font-size);
     height: var(--font-size);
 }
 
-#devices .device-list div.desc-block button > svg > path {
+#devices .device-list div.desc-block button>svg>path {
     fill: var(--text-color);
 }
 
-#devices .device-list .device.not-active div.desc-block button > svg > path {
+#devices .device-list .device.not-active div.desc-block button>svg>path {
     fill: var(--text-color-light);
 }
 
@@ -224,7 +226,7 @@ body.list #device_list_menu {
     color: var(--kill-button-hover-color);
 }
 
-#devices .device-list .device.active div.desc-block button.action-button:hover > svg > path {
+#devices .device-list .device.active div.desc-block button.action-button:hover>svg>path {
     fill: var(--kill-button-hover-color);
 }
 
