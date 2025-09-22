@@ -1,20 +1,37 @@
-FROM alpine:3.14 AS builder
+# Gunakan Node LTS terbaru (misal Node 20 dengan Debian Bullseye)
+FROM node:20-bullseye
 
-ADD . /ws-scrcpy
-RUN apk add --no-cache git nodejs npm python3 make g++
+LABEL MAINTAINER="me@monlor.com"
+LABEL VERSION="1.0.1"
+LABEL ORIGINAL_AUTHOR="Scavin <scavin@appinn.com>"
 
+# Set locale
+ENV LANG C.UTF-8
 WORKDIR /ws-scrcpy
-RUN npm install
-RUN npm run dist
 
-WORKDIR dist
-RUN npm install
+# Install dependencies terbaru
+RUN apt update && \
+    apt install -y --no-install-recommends \
+    android-tools-adb \
+    netcat \
+    git \
+    wget \
+    unzip \
+    && npm install -g node-gyp \
+    && rm -rf /var/lib/apt/lists/*
 
-FROM alpine:3.14 AS runner
-LABEL maintainer="Vitaly Repin <vitaly.repin@gmail.com>"
+# Clone repository ws-scrcpy terbaru
+RUN git clone https://github.com/NetrisTV/ws-scrcpy.git . && \
+    npm install && \
+    npm run dist
 
-RUN apk add --no-cache android-tools npm
-COPY --from=builder /ws-scrcpy /root/ws-scrcpy
+# Jika mau, bisa juga pakai platform-tools terbaru langsung dari Google
+# RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip && \
+#     unzip platform-tools-latest-linux.zip && \
+#     mv ./platform-tools/adb /usr/bin/adb
 
-WORKDIR /root/ws-scrcpy
-CMD ["npm", "start"]
+EXPOSE 8000
+
+# Copy entrypoint
+COPY --chmod=755 entrypoint.sh /
+ENTRYPOINT [ "/entrypoint.sh" ]
